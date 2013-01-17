@@ -36,21 +36,28 @@ public class DefaultTrackingCommand extends BadCommand {
         /*
          * For later tests we should look at CPU usage...
          * and definitely check for memory leaks
+         * Ryan was here
          */
         long startTime = System.currentTimeMillis();
-        double aspectRatio = 3.0/2.0;
-        TrackingCriteria criteria = new TrackingCriteria(aspectRatio, .5, 1992, .5, 200, 250,
-                                        40, 80, 60, 80);
+        double aspectRatio = 8.75/5.875;
+        TrackingCriteria criteria = new TrackingCriteria(aspectRatio, .95, 51, .95, 0, 255,
+                                        0, 255, 0, 255);
         DetectedPoint[] detectedPoints = imageTrackingSystem.getTargetCoordinates(criteria);
         if(detectedPoints != null) {
             for(int i = 0; i < detectedPoints.length; i++) {
                 DetectedPoint point = detectedPoints[i];
-                log("I has a point! ("+point.getX()+", "+point.getY()+")");
+                if(point != null)
+                    log("I has a point! ("+point.getX()+", "+point.getY()+")");
             }
         }
         long endTime = System.currentTimeMillis();
         long duration = endTime-startTime;
         log("Completed my work in "+duration+" milliseconds :3");
+        try {
+            Thread.sleep(750);
+        } catch(Exception ex) {
+        
+        }
         completed = true;
     }
 

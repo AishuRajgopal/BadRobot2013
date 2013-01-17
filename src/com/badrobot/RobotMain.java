@@ -65,7 +65,7 @@ public class RobotMain extends IterativeRobot
 
     public void teleopInit() {
 	Relay relay = new Relay(3);
-        relay.set(Relay.Value.kOn);
+        relay.setDirection(Relay.Direction.kForward);
         //relay.set(Relay.Value.kOn);
         Watchdog.getInstance().setEnabled(false);
     }

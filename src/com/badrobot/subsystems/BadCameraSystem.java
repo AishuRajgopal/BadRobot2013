@@ -98,13 +98,14 @@ public class BadCameraSystem extends BadSubsystem
                 ParticleAnalysisReport report = reports[i];
                 int aspectRatio = report.boundingRectWidth/report.boundingRectHeight;
                 double area = report.particleArea;
-                double aspectError = (aspectRatio-criteria.getAspectRatio())/criteria.getAspectRatio();
-                double areaError = (area-criteria.getParticleArea())/criteria.getParticleArea();
+                double aspectError = ((double)aspectRatio-criteria.getAspectRatio())/criteria.getAspectRatio();
+                double areaError = ((double)area-criteria.getParticleArea())/criteria.getParticleArea();
                 aspectError = Math.abs(aspectError);
                 areaError = Math.abs(areaError);
-                if(aspectError < criteria.getAspectTolerance() &&
+                if(aspectError < criteria.getAspectTolerance() ||
                         areaError < criteria.getAreaTolerance()) 
                 {
+                    log("We has a point! ("+report.center_mass_x_normalized+", "+report.center_mass_y_normalized+")");
                     results[pointIndex] = new DetectedPoint(report.center_mass_x_normalized, report.center_mass_y_normalized);
                     pointIndex++;
                 }
@@ -113,7 +114,7 @@ public class BadCameraSystem extends BadSubsystem
             
             log(pointIndex + " point Index, "+results.length+" results.length");
             //Remove the empty slots in the array
-            if(pointIndex < results.length) 
+            if(pointIndex+1 < results.length) 
             {
                 DetectedPoint[] compressedPoints = new DetectedPoint[pointIndex];
                 int x = 0;
@@ -142,9 +143,9 @@ public class BadCameraSystem extends BadSubsystem
             {
                 log("We're actually freeing things!");
                 //For debugging purposes
-                //colorImage.write("colorImage.jpg");
-                //binaryImage.write("binaryImage.jpg");
-                //resultImage.write("resultImage.jpg");
+                colorImage.write("colorImage.jpg");
+                binaryImage.write("binaryImage.jpg");
+                resultImage.write("resultImage.jpg");
                 
                 if(colorImage != null)
                     colorImage.free();
