@@ -4,7 +4,7 @@ import com.badrobot.BadRobotMap;
 import com.badrobot.commands.DefaultTrackingCommand;
 import com.badrobot.utils.DetectedPoint;
 import com.badrobot.utils.TrackingCriteria;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.camera.AxisCameraException;
 import edu.wpi.first.wpilibj.image.BinaryImage;
@@ -27,6 +27,7 @@ public class BadCameraSystem extends BadSubsystem
 
     private static BadCameraSystem instance;
     private static final boolean USE_CAMERA = true; //if false, load from CRIO
+    private static final int TIMER_DELAY = 50;
     
     private AxisCamera imageTrackingCamera;
     
@@ -70,9 +71,11 @@ public class BadCameraSystem extends BadSubsystem
             } 
             else 
             {
-                do {
-                    colorImage = imageTrackingCamera.getImage();
-                } while(!imageTrackingCamera.freshImage());
+                while(!imageTrackingCamera.freshImage())
+                {
+                    Timer.delay(TIMER_DELAY);
+                } 
+                colorImage = imageTrackingCamera.getImage();
             }
                 
             int hueLow = criteria.getMinimumHue();
