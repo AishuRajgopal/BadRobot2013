@@ -117,12 +117,17 @@ public class BadCameraSystem extends BadSubsystem
             
             log(pointIndex + " point Index, "+results.length+" results.length");
             //Remove the empty slots in the array
-            if(pointIndex+1 < results.length) 
+            //pointIndex is probably a bad name, it's used as an index above
+            //but due to the way it is incremented the final value
+            //is actually a length
+            if(pointIndex < results.length) 
             {
                 DetectedPoint[] compressedPoints = new DetectedPoint[pointIndex];
                 int x = 0;
-                for(int i = 0; i < results.length; i++) {
-                    if(results[i] != null) {
+                for(int i = 0; i < results.length; i++) 
+                {
+                    if(results[i] != null) 
+                    {
                         compressedPoints[x] = results[i];
                         x++;
                     }
